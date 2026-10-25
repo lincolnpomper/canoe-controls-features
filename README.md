@@ -75,10 +75,11 @@ The original analog-only library has SHA-256
 `faef005d9a1d8453f6df625b4456b93eba81bb88ad42ba535c16af0220aad098`.
 The first ZL-only update had hash
 `a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d`.
-The current main library build has SHA-256
-`ac836cd2875d6ca8161f8e9ecc8027547a0ea49a241d4bf2df6c45542e1d622f`
-and includes the unverified OpenGL scanline prototype. The tested CRT worker
-module is built separately from `mods/canoe-crt-control/`.
+The default main library build has SHA-256
+`47cfaf7e0633e38c4ffb408f1843c2a23c553a88a6d1d80bd8651aafd12112dc` and
+matches the build tested on the Mini. The experimental OpenGL scanline hook is
+excluded by default; opt in with `INCLUDE_EXPERIMENTAL_SCANLINE=1`. The tested
+CRT worker module is built separately from `mods/canoe-crt-control/`.
 Rebuilds can change the hash because of toolchain metadata; verify the build and
 checksum before installing.
 
@@ -107,20 +108,15 @@ This does not remap controls system-wide and does not affect RetroArch. RetroArc
 
 ## Download
 
-The previously published analog-only ARMv7 binary is available in the [latest GitHub release](https://github.com/lincolnpomper/wii-classic-analog-on-canoe/releases/latest).
-
-Direct download:
-
-[`libcanoe_analog_state.so`](https://github.com/lincolnpomper/wii-classic-analog-on-canoe/releases/latest/download/libcanoe_analog_state.so)
-
-The current library in `dist/` includes analog input, ZL pause, capped ZR fast
-forward and the unverified OpenGL scanline prototype. The separately built CRT
-worker module is documented under `mods/canoe-crt-control/`. Neither update has
-been published as a GitHub release.
+GitHub Releases do not have a published build yet. The current library in
+`dist/` includes analog input, ZL pause and capped ZR fast forward. The
+separately built CRT worker module is documented under
+`mods/canoe-crt-control/`. The OpenGL scanline prototype remains experimental
+and is excluded from the default build.
 
 ## Install
 
-1. Use `dist/libcanoe_analog_state.so` for analog support, ZL pause and capped ZR fast forward. The OpenGL scanline prototype in that library is unverified. The working CRT coefficient controls are a separate module under `mods/canoe-crt-control/`. The current GitHub release contains the earlier analog-only version.
+1. Use `dist/libcanoe_analog_state.so` for analog support, ZL pause and capped ZR fast forward. The working CRT coefficient controls are a separate module under `mods/canoe-crt-control/`. The OpenGL scanline prototype is excluded from the default build.
 2. Copy it to `/var/lib/hakchi/libcanoe_analog_state.so` on the Mini.
 3. Copy `scripts/install.sh` to the Mini and execute it as root.
 4. Reboot the Mini.
@@ -133,7 +129,7 @@ library in `/tmp`, and use the checked upgrade instead of overwriting a library
 that a running game may have mapped:
 
 ```sh
-sh upgrade-controls.sh /tmp/libcanoe_controls.new.so ac836cd2875d6ca8161f8e9ecc8027547a0ea49a241d4bf2df6c45542e1d622f
+sh upgrade-controls.sh /tmp/libcanoe_controls.new.so 47cfaf7e0633e38c4ffb408f1843c2a23c553a88a6d1d80bd8651aafd12112dc
 ```
 
 The script prints the backup directory and preserves the launcher. Open a game
