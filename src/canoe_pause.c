@@ -10,7 +10,7 @@
 #include <time.h>
 #include <unistd.h>
 
-/* Exact fixed-address ARM ELF profile, verified on Lincoln's Mini.
+/* Exact fixed-address ARM ELF profile, verified on an SNES Classic Mini.
  * Installer SHA-256: 30d0768623e875dc8f3de334ccc7193807878c8ad9b50c38bec362deb4245a61.
  * Runtime checks the executable identity, mapped segments and both routines
  * before reading any private state. Other builds retain analog input only. */

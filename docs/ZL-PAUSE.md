@@ -63,7 +63,7 @@ hysteresis and diagonals, physical buttons and event preservation.
 The Windows build script also compiles both production source files, but has
 not been run on Windows during this Mac session.
 
-## Installation and rollback on Lincoln's Mini
+## Installation and rollback on an SNES Classic Mini
 
 The initial ZL-only build was installed on 2026-10-24 through `scripts/upgrade-controls.sh`, while the Mini was
 in its menu. The replacement was staged, checked, smoke-loaded and atomically

@@ -7,7 +7,7 @@ with a 120 fps ceiling (approximately 2×), as requested by the user.
 ## Result
 
 On 2026-10-24, a temporary module demonstrated real **approximately 2.06× fast
-forward in Mario**, loaded from a saved state on Lincoln's SNES Mini. It omitted
+forward in Mario**, loaded from a saved state on an SNES Classic Mini. It omitted
 one framebuffer vertical-refresh wait for three seconds and then restored the
 original wait automatically. The production analog/ZL library was unchanged.
 

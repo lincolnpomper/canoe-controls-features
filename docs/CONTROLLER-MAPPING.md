@@ -1,6 +1,6 @@
 # Wii Classic Controller input capture
 
-Captured on Lincoln's SNES Classic Mini on 2026-10-24, with the existing analog mod loaded alongside a temporary SDL input logger. The user opened Mario and physically exercised the controller in player port 1. SDL identified it as `Nintendo Clovercon`, controller index 0, joystick instance ID 0. Instance IDs are assigned at runtime and must not be hardcoded.
+Captured on an SNES Classic Mini on 2026-10-24, with the existing analog mod loaded alongside a temporary SDL input logger. A player exercised the controller in port 1 while Mario was open. SDL identified it as `Nintendo Clovercon`, controller index 0, joystick instance ID 0. Instance IDs are assigned at runtime and must not be hardcoded.
 
 ## Buttons
 
