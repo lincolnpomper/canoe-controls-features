@@ -44,7 +44,6 @@ not been dynamically tested.
 
 ## Temporary proof
 
-The diagnostic project lives at
 The initial probe was kept in a separate local workspace. Its shared library
 interposed `ioctl`, SDL semaphore/presentation functions, and `SDL_PollEvent`,
 alongside the existing analog/ZL mod. Timing was aggregated by thread, caller
@@ -91,13 +90,10 @@ hardware validation scope.
 
 ## Evidence and cleanup
 
-- [Selected timing intervals](fast-forward-validation/2026-10-24/events.log).
-- [Measurements and user observations](fast-forward-validation/2026-10-24/validation.json).
-- [Cleanup and file checksums](fast-forward-validation/2026-10-24/cleanup.txt).
-
-The full raw snapshot is retained in the diagnostic project's
-`reports/events-snapshot.log`; its SHA-256 was verified against the console and
-recorded in the measurement file. The launcher was restored to its previous
+The repeatable hardware-testing procedure is in
+[`MINI-VALIDATION.md`](MINI-VALIDATION.md). The summarized results above are
+retained; raw logs and per-run captures are not required to understand or
+reproduce the production behavior. The launcher was restored to its previous
 hash, and the production analog/ZL library still has SHA-256
 `a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d`.
 

@@ -49,12 +49,16 @@ HOME was captured last. Its press generated raw button 10 and SDL controller but
 
 Raw joystick axis numbers and standardized SDL controller axis numbers are different namespaces. In particular, raw axis 5 belongs to R's analog travel, while SDL controller axis 5 represents ZR.
 
-## Capture evidence and cleanup
+## Capture method
 
-The repository retains the [raw events for this game session](input-captures/2026-10-24/events.log), a [capture manifest](input-captures/2026-10-24/manifest.json), and the [cleanup verification](input-captures/2026-10-24/cleanup.txt). The game process was PID 28905. All button rounds and both sticks used joystick instance 0.
+The controller was captured with a passive SDL logger while one control at a
+time was pressed and released. Both sticks were tested in separate
+right/left/up/down rounds, returning to center between movements. HOME was
+tested last because it exits the game and ends capture. The logger did not
+alter input events. The observer and temporary launcher change were removed
+after capture, and the original launcher, Canoe executable, and installed
+analog library were verified unchanged.
 
-The captured input events and final mapping are recorded in this repository. The temporary logger used during capture did not alter input events.
-
-After HOME, the temporary launcher block was removed and the capture was disabled. No Canoe process remained running. Checksums confirmed that the launcher matched its pre-capture backup and that Canoe and the existing analog library were unchanged. Temporary diagnostic files remain under `/tmp/canoe-input-probe` until the Mini is rebooted, but no longer load into games. No pause shortcut has been installed by this capture step.
+See [the Mini validation guide](MINI-VALIDATION.md) for how to repeat a capture.
 
 This document records the tested console/controller combination. It does not establish that every controller model or SDL build uses the same mapping.

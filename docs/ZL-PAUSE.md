@@ -102,20 +102,21 @@ pause behavior: controller polling remains active while emulation stops, and
 gameplay resumes using current input state. It does not queue gameplay frames
 while paused.
 
-Repository evidence: [runtime events](pause-validation/2026-10-24/events.log),
-[validation summary](pause-validation/2026-10-24/validation.json),
-[installation record](pause-validation/2026-10-24/install-device.txt), and
-[input-test result](pause-validation/2026-10-24/input-tests.txt).
+The repeatable hardware-testing procedure is in
+[`MINI-VALIDATION.md`](MINI-VALIDATION.md). The summarized results above are
+kept; raw event logs and per-run installation records are not needed to
+understand or reproduce the test.
 
 The running library records startup and requested actions in
 `/tmp/canoe-controls.log`, capped at approximately 64 KiB across game launches
 until reboot. The log is optional for operation: inability to open/write it
-does not prevent the shortcut from working. Temporary diagnostics and reports
-are included in the repository's validation notes.
+does not prevent the shortcut from working. The hardware-testing procedure is
+documented in `MINI-VALIDATION.md`; temporary diagnostics are not required by
+the installed mod.
 
-The read-only `canoe-status` helper in that diagnostic directory samples the
-frame counter and flags through `/proc/PID/mem`. It is not loaded into Canoe and
-is not required by the installed mod.
+The read-only status helper used during the test sampled the frame counter and
+flags through `/proc/PID/mem`. It was not loaded into Canoe and is not required
+by the installed mod.
 
 This update has not yet been verified on hardware with two controllers or after
 a reboot. Input-state tests cover two-controller independence, and the earlier

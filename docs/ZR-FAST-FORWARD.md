@@ -73,10 +73,11 @@ Two ZL pause/resume pairs (1017 ms and 767 ms) preserved their frame counters
 and correctly changed both emulation/audio flags. The user confirmed:
 “sim, funcionou. pareceu 2x”.
 
-Evidence: [runtime events](zr-validation/2026-10-24/events.log),
-[validation summary](zr-validation/2026-10-24/validation.json),
-[unit tests](zr-validation/2026-10-24/input-pacer-tests.txt), and
-[device pacer test/install](zr-validation/2026-10-24/install-device.txt).
+The repeatable hardware-testing procedure is in
+[`MINI-VALIDATION.md`](MINI-VALIDATION.md). The summarized measurements above
+are retained; raw event logs and per-run installation records are not required
+to understand or reproduce the test. Host tests can be rerun with
+`bash scripts/test.sh`.
 
 No additional games were tested, in accordance with the user's preference.
 Two-controller hardware and reboot tests of this version are not yet performed;
@@ -92,7 +93,8 @@ unchanged.
 - Previous analog/ZL library: `a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d`.
 - Console backup: `/var/lib/hakchi/canoe-controls-backups/19700101-020922`.
 - Local backup: the pause-only library preserved before the fast-forward update.
-- Diagnostics are recorded in this repository's validation notes.
+- The test procedure and retained result are documented in
+  [`MINI-VALIDATION.md`](MINI-VALIDATION.md) and this file.
 
 The Mini's clock is unset, hence the 1970 backup name. To undo only this
 upgrade, exit to the Mini menu and run on the Mini:

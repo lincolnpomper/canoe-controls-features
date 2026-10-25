@@ -163,6 +163,8 @@ Run `scripts/uninstall.sh` on the Mini. It restores the most recent backup creat
 
 The [controller input map](docs/CONTROLLER-MAPPING.md) records the 2026-10-24
 button and stick capture, including how ZL/ZR appear as SDL trigger axes.
+The [Mini validation guide](docs/MINI-VALIDATION.md) documents how to repeat
+hardware tests and preserve useful findings without committing raw logs.
 The [ZL pause implementation notes](docs/ZL-PAUSE.md) describe the native call,
 version checks, diagnostics and validation.
 The [fast-forward investigation](docs/FAST-FORWARD.md) demonstrated the native
