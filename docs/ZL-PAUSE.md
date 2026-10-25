@@ -13,11 +13,12 @@ its stored directions and ZL latch, freeing the slot for future connections.
 
 ## Implementation
 
-`src/canoe_analog_state.c` observes SDL controller axis 4 (`LEFTTRIGGER`), which
-the capture confirmed as physical ZL. The recorded values are 0 released and
+`modules/controller-controls/src/canoe_analog_state.c` observes SDL controller
+axis 4 (`LEFTTRIGGER`), which the capture confirmed as physical ZL. The
+recorded values are 0 released and
 32767 pressed. The same 18000/12000 hysteresis used for the analog input arms
 one action per press. On that edge, it calls `canoe_pause_toggle(instance_id)`
-from `src/canoe_pause.c` on the SDL polling thread.
+from `modules/controller-controls/src/canoe_pause.c` on the SDL polling thread.
 
 The integration calls Canoe's original ARM routine at `0x2CAC4` with `!PAUSED`.
 It reads Canoe's own current flag at `0x1E210C` instead of maintaining a separate
@@ -50,8 +51,8 @@ verified addresses and checks before native pause can be enabled on them.
 ## Build and tests
 
 ```sh
-ZIG=/absolute/path/to/zig bash scripts/build.sh
-bash scripts/test.sh
+ZIG=/absolute/path/to/zig bash scripts/build-all.sh
+bash scripts/test-all.sh
 ```
 
 The production target is ARM hard-float Linux with glibc 2.17, Cortex-A7, ARM
@@ -60,14 +61,16 @@ sanitizers and mocked SDL calls. They check held/jittering ZL, release/repress,
 ZR isolation, multiple controller IDs, repeated reconnects, existing analog
 hysteresis and diagonals, physical buttons and event preservation.
 
-The Windows build script also compiles both production source files, but has
-not been run on Windows during this Mac session.
+The controller-controls Windows build script is at
+`modules/controller-controls/scripts/build.ps1`; it has not been run on
+Windows during this Mac session.
 
 ## Installation and rollback on an SNES Classic Mini
 
-The initial ZL-only build was installed on 2026-10-24 through `scripts/upgrade-controls.sh`, while the Mini was
-in its menu. The replacement was staged, checked, smoke-loaded and atomically
-moved into place. The launcher was preserved.
+The initial ZL-only build was installed on 2026-10-24 through the
+controller-controls module's upgrade script, while the Mini was in its menu.
+The replacement was staged, checked, smoke-loaded and atomically moved into
+place. The launcher was preserved.
 
 - Updated library SHA-256: `a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d`.
 - Previous analog-only library SHA-256: `faef005d9a1d8453f6df625b4456b93eba81bb88ad42ba535c16af0220aad098`.

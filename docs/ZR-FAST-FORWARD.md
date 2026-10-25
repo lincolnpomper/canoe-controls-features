@@ -77,7 +77,7 @@ The repeatable hardware-testing procedure is in
 [`MINI-VALIDATION.md`](MINI-VALIDATION.md). The summarized measurements above
 are retained; raw event logs and per-run installation records are not required
 to understand or reproduce the test. Host tests can be rerun with
-`bash scripts/test.sh`.
+`bash scripts/test-all.sh`.
 
 No additional games were tested, in accordance with the user's preference.
 Two-controller hardware and reboot tests of this version are not yet performed;

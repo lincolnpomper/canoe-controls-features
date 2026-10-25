@@ -8,7 +8,7 @@ repository; keep concise results, relevant hashes, and unresolved limitations.
 ## Before changing the Mini
 
 1. Read the feature notes and inspect the current branch, build scripts, and
-   tests. Run `bash scripts/test.sh` before a device session.
+   tests. Run `bash scripts/test-all.sh` before a device session.
 2. Identify the exact Canoe executable and installed library. Native pause and
    fast forward are guarded for the Canoe SHA-256 documented in `README.md`;
    do not infer compatibility from a version label alone.
@@ -81,6 +81,6 @@ them to reproduce a measurement. Avoid committing raw logs, process IDs,
 timestamps, personal machine paths, or controller-session transcripts when a
 brief result preserves the useful finding.
 
-Run `bash scripts/test.sh` after code changes and before each device session.
-It covers host-side input, pacing, and CRT-settings behavior; it does not
-replace the Canoe hardware checks above.
+Run `bash scripts/test-all.sh` after code changes and before each device
+session. It runs each module's host-side tests; it does not replace the Canoe
+hardware checks above.

@@ -14,4 +14,3 @@ trap 'rm -rf "$BUILD"' EXIT
 "${CC:-cc}" -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined \
     "$ROOT/tests/pacer_test.c" "$BUILD/pacer.o" -o "$BUILD/pacer-test"
 "$BUILD/pacer-test"
-"$ROOT/mods/canoe-crt-control/scripts/test.sh"

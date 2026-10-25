@@ -29,8 +29,9 @@ analog/pause/fast-forward library. Install scripts and recovery backups remain
 local to the Mini setup; this source directory contains no personalized
 settings or device backups.
 
-Build with `scripts/build.sh` and an ARM-targeting Zig compiler. The output is
-written to `dist/`. `scripts/test.sh` runs host-side checks for loading valid
+Build with `modules/crt-controls/scripts/build.sh` and an ARM-targeting Zig
+compiler. The output is written to `modules/crt-controls/dist/`.
+`modules/crt-controls/scripts/test.sh` runs host-side checks for loading valid
 settings, rejecting invalid values, delayed persistence and the reset write.
 The adjustment loop and framebuffer hook have been verified on the Mini; the
 host tests do not emulate Canoe's renderer.
