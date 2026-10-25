@@ -24,9 +24,8 @@ forward. The separate CRT module also reads SDL controller-axis events, but
 uses only the right stick to adjust filter coefficients; it does not map a
 stick to gameplay directions. Load both libraries to use the full feature set.
 
-An OpenGL scanline prototype in `src/canoe_scanline.c` has not been shown to
-affect the Mini's image. The separate framebuffer-worker module in
-`mods/canoe-crt-control/` does work with the configured scanline path: the
+The separate framebuffer-worker module in `mods/canoe-crt-control/` works with
+the configured scanline path: the
 right stick adjusts two coefficients, saves them automatically, and ZL+ZR
 restores the defaults. It does not modify Canoe on disk.
 
@@ -58,7 +57,6 @@ The mapping is SDL axis 0 = horizontal and axis 1 = vertical. Diagonals work bec
 - `src/canoe_analog_state.c` — final C source.
 - `src/canoe_pause.c` — guarded native Canoe pause integration.
 - `src/canoe_fast_forward.c` / `src/frame_pacer.c` — ZR framebuffer pacing with a 120 fps ceiling.
-- `src/canoe_scanline.c` / `src/canoe_scanline_transform.c` — reversible CRT scanline-curve adjustment through OpenGL.
 - `mods/canoe-crt-control/` — separate framebuffer-worker controls with persistent settings and a ZL+ZR reset.
 - `dist/libcanoe_analog_state.so` — current ARMv7 Linux shared library.
 - `scripts/build.sh` / `scripts/build.ps1` — macOS/Linux and Windows build commands using Zig.
@@ -80,9 +78,8 @@ The first ZL-only update had hash
 `a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d`.
 The default main library build has SHA-256
 `47cfaf7e0633e38c4ffb408f1843c2a23c553a88a6d1d80bd8651aafd12112dc` and
-matches the build tested on the Mini. The experimental OpenGL scanline hook is
-excluded by default; opt in with `INCLUDE_EXPERIMENTAL_SCANLINE=1`. The tested
-CRT worker module is built separately from `mods/canoe-crt-control/`.
+matches the build tested on the Mini. The tested CRT worker module is built
+separately from `mods/canoe-crt-control/`.
 Rebuilds can change the hash because of toolchain metadata; verify the build and
 checksum before installing.
 
@@ -114,12 +111,12 @@ This does not remap controls system-wide and does not affect RetroArch. RetroArc
 GitHub Releases do not have a published build yet. The current library in
 `dist/` includes analog input, ZL pause and capped ZR fast forward. The
 separately built CRT worker module is documented under
-`mods/canoe-crt-control/`. The OpenGL scanline prototype remains experimental
-and is excluded from the default build.
+`mods/canoe-crt-control/`. The unverified OpenGL scanline prototype is kept on
+the separate `codex/experimental-opengl-scanlines` branch.
 
 ## Install
 
-1. Use `dist/libcanoe_analog_state.so` for analog support, ZL pause and capped ZR fast forward. The working CRT coefficient controls are a separate module under `mods/canoe-crt-control/`. The OpenGL scanline prototype is excluded from the default build.
+1. Use `dist/libcanoe_analog_state.so` for analog support, ZL pause and capped ZR fast forward. The working CRT coefficient controls are a separate module under `mods/canoe-crt-control/`.
 2. Copy it to `/var/lib/hakchi/libcanoe_analog_state.so` on the Mini.
 3. Copy `scripts/install.sh` to the Mini and execute it as root.
 4. Reboot the Mini.

@@ -3,16 +3,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 ZIG="${ZIG:-zig}"
 mkdir -p "$ROOT/dist"
-SOURCES=(
-    "$ROOT/src/canoe_analog_state.c"
-    "$ROOT/src/canoe_pause.c"
-    "$ROOT/src/canoe_fast_forward.c"
-    "$ROOT/src/frame_pacer.c"
-)
-if [[ "${INCLUDE_EXPERIMENTAL_SCANLINE:-0}" == "1" ]]; then
-    SOURCES+=("$ROOT/src/canoe_scanline.c" "$ROOT/src/canoe_scanline_transform.c")
-fi
 "$ZIG" cc -target arm-linux-gnueabihf.2.17 -mcpu=cortex_a7 -marm \
     -shared -fPIC -O2 -s -Wall -Wextra -Werror \
-    "${SOURCES[@]}" -ldl -o "$ROOT/dist/libcanoe_analog_state.so"
+    "$ROOT/src/canoe_analog_state.c" "$ROOT/src/canoe_pause.c" \
+    "$ROOT/src/canoe_fast_forward.c" "$ROOT/src/frame_pacer.c" \
+    -ldl -o "$ROOT/dist/libcanoe_analog_state.so"
 shasum -a 256 "$ROOT/dist/libcanoe_analog_state.so"
