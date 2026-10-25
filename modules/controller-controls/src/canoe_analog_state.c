@@ -2,6 +2,8 @@
 
 #include <dlfcn.h>
 #include <stdint.h>
+#include "canoe_pause.h"
+#include "canoe_fast_forward.h"
 
 typedef union {
     uint32_t type;
@@ -11,6 +13,10 @@ typedef union {
         int16_t value;
         uint16_t padding4;
     } caxis;
+    struct {
+        uint32_t type, timestamp;
+        int32_t which;
+    } cdevice;
     uint8_t pad[56];
 } SDL_Event_Compat;
 
@@ -21,6 +27,9 @@ typedef int32_t (*joystick_instance_id_fn)(void *);
 
 enum {
     SDL_CONTROLLERAXISMOTION = 0x650,
+    SDL_CONTROLLERDEVICEREMOVED = 0x654,
+    ZL_AXIS = 4,
+    ZR_AXIS = 5,
     DPAD_UP = 11,
     DPAD_DOWN = 12,
     DPAD_LEFT = 13,
@@ -39,9 +48,18 @@ static joystick_instance_id_fn real_joystick_instance_id;
 struct controller_state {
     int32_t instance_id;
     uint8_t analog_down[4]; /* SDL d-pad order: up, down, left, right. */
+    uint8_t zl_down;
+    uint8_t zr_down;
 };
 static struct controller_state controller_states[4];
 static int states_initialized;
+
+static int any_zr_held(void) {
+    for (int i = 0; i < 4; ++i)
+        if (controller_states[i].instance_id != -1 && controller_states[i].zr_down)
+            return 1;
+    return 0;
+}
 
 static struct controller_state *state_for(int32_t instance_id, int create) {
     int i;
@@ -82,7 +100,17 @@ int SDL_PollEvent(void *opaque_event) {
     if (!real_poll)
         return 0;
     result = real_poll(opaque_event);
-    if (!result || !event || event->type != SDL_CONTROLLERAXISMOTION)
+    if (!result || !event)
+        return result;
+    if (event->type == SDL_CONTROLLERDEVICEREMOVED) {
+        state = state_for(event->cdevice.which, 0);
+        if (state) {
+            *state = (struct controller_state){ .instance_id = -1 };
+            canoe_fast_forward_set(any_zr_held(), event->cdevice.which);
+        }
+        return result;
+    }
+    if (event->type != SDL_CONTROLLERAXISMOTION)
         return result;
 
     state = state_for((int32_t)event->caxis.which, 1);
@@ -95,6 +123,14 @@ int SDL_PollEvent(void *opaque_event) {
     } else if (event->caxis.axis == 1) {
         state->analog_down[1] = positive(event->caxis.value, state->analog_down[1]); /* down */
         state->analog_down[0] = negative(event->caxis.value, state->analog_down[0]); /* up */
+    } else if (event->caxis.axis == ZL_AXIS) {
+        uint8_t was_down = state->zl_down;
+        state->zl_down = positive(event->caxis.value, was_down);
+        if (state->zl_down && !was_down)
+            canoe_pause_toggle(state->instance_id);
+    } else if (event->caxis.axis == ZR_AXIS) {
+        state->zr_down = positive(event->caxis.value, state->zr_down);
+        canoe_fast_forward_set(any_zr_held(), state->instance_id);
     }
     return result;
 }
