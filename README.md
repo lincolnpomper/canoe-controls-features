@@ -19,7 +19,10 @@ Canoe's native pause routine on the input thread, from the same library as the
 analog mod. The emulator executable stays intact. Pause currently supports the
 specific Canoe build listed below; other builds keep analog support only.
 ZR replaces only the measured CPU framebuffer refresh wait with a paced wait.
-The same library implements analog input, ZL pause and ZR fast forward.
+The same library implements left-stick-to-D-pad input, ZL pause and ZR fast
+forward. The separate CRT module also reads SDL controller-axis events, but
+uses only the right stick to adjust filter coefficients; it does not map a
+stick to gameplay directions. Load both libraries to use the full feature set.
 
 An OpenGL scanline prototype in `src/canoe_scanline.c` has not been shown to
 affect the Mini's image. The separate framebuffer-worker module in

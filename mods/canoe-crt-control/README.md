@@ -6,6 +6,14 @@ framebuffer worker at `0x00163084`; it does not modify `canoe-shvc` on disk.
 The hook checks Canoe's executable size and the first two instructions before
 patching, so unsupported builds are left untouched.
 
+The module reads SDL controller-axis events so the right stick can adjust the
+CRT coefficients and ZL+ZR can reset them. This is separate from the main
+library's left-stick-to-D-pad mapping and its ZL pause/ZR fast-forward actions.
+The CRT module does not make the left stick control gameplay directions. Load
+both shared libraries to use all features together; the two event hooks chain
+through SDL's normal `RTLD_NEXT` lookup and this combined setup has been
+validated on the Mini.
+
 On the Wii Classic Controller's right stick, left/right changes the first
 coefficient and down/up changes the second. Each adjustment is 10 points, with
 a 400 ms initial key delay and 100 ms repeat interval. Values are clamped to
