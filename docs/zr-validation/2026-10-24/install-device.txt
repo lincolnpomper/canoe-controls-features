@@ -1,0 +1,8 @@
+intervals=360 elapsed_ns=3025127805 max_fps=120 measured_fps=119.003
+PASS: real-clock ceiling holds with no game workload
+CONTROLS_UPGRADED
+BACKUP=/var/lib/hakchi/canoe-controls-backups/19700101-020922
+30d0768623e875dc8f3de334ccc7193807878c8ad9b50c38bec362deb4245a61  /usr/bin/canoe-shvc
+47cfaf7e0633e38c4ffb408f1843c2a23c553a88a6d1d80bd8651aafd12112dc  /var/lib/hakchi/libcanoe_analog_state.so
+ab6296a9b626f27079516f12596595b0a20becac787b512239bcee21d94f4b4c  /usr/bin/clover-canoe-shvc
+END_ZR_INSTALL

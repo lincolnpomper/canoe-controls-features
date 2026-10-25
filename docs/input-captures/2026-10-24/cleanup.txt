@@ -1,0 +1,7 @@
+LAUNCHER_RESTORED
+30d0768623e875dc8f3de334ccc7193807878c8ad9b50c38bec362deb4245a61  /usr/bin/canoe-shvc
+ab6296a9b626f27079516f12596595b0a20becac787b512239bcee21d94f4b4c  /usr/bin/clover-canoe-shvc
+82f42a7634ef6a7b41449cba3717c80d35d440796e273b7a193087b55646ca1a  /tmp/canoe-input-probe/events.log
+faef005d9a1d8453f6df625b4456b93eba81bb88ad42ba535c16af0220aad098  /var/lib/hakchi/libcanoe_analog_state.so
+NO_GAME_RUNNING
+END_CLEANUP_VERIFIED

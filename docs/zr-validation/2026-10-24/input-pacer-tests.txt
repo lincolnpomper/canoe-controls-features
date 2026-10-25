@@ -1,0 +1,2 @@
+PASS: ZL edges/hold/release, shared ZR held state/release/disconnect, independent controllers, reconnect, analog hysteresis/diagonals, physical buttons and event preservation
+PASS: 120 fps ceiling over 10000 frames, slow frames, no catch-up bursts, interrupted sleep, clock/sleep failure and reset

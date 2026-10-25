@@ -1,0 +1,1 @@
+PASS: ZL edges/hold/release, ZR ignored, independent controllers, reconnect, analog hysteresis/diagonals, physical buttons and event preservation

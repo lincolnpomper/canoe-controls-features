@@ -1,0 +1,195 @@
+{
+  "date": "2026-10-24",
+  "game_reported": "Mario",
+  "pid": 32696,
+  "completed_pause_resume_pairs": 43,
+  "all_pairs_same_frame": true,
+  "all_pairs_both_flags_correct": true,
+  "main_thread_calls": true,
+  "duration_range_ms": [
+    116,
+    2483
+  ],
+  "pairs": [
+    {
+      "frame": 651,
+      "duration_ms": 2033
+    },
+    {
+      "frame": 743,
+      "duration_ms": 700
+    },
+    {
+      "frame": 804,
+      "duration_ms": 2483
+    },
+    {
+      "frame": 856,
+      "duration_ms": 267
+    },
+    {
+      "frame": 880,
+      "duration_ms": 183
+    },
+    {
+      "frame": 891,
+      "duration_ms": 167
+    },
+    {
+      "frame": 902,
+      "duration_ms": 184
+    },
+    {
+      "frame": 914,
+      "duration_ms": 183
+    },
+    {
+      "frame": 925,
+      "duration_ms": 184
+    },
+    {
+      "frame": 935,
+      "duration_ms": 167
+    },
+    {
+      "frame": 944,
+      "duration_ms": 600
+    },
+    {
+      "frame": 1060,
+      "duration_ms": 117
+    },
+    {
+      "frame": 1066,
+      "duration_ms": 117
+    },
+    {
+      "frame": 1074,
+      "duration_ms": 117
+    },
+    {
+      "frame": 1080,
+      "duration_ms": 133
+    },
+    {
+      "frame": 1087,
+      "duration_ms": 116
+    },
+    {
+      "frame": 1094,
+      "duration_ms": 117
+    },
+    {
+      "frame": 1102,
+      "duration_ms": 117
+    },
+    {
+      "frame": 1109,
+      "duration_ms": 134
+    },
+    {
+      "frame": 1117,
+      "duration_ms": 117
+    },
+    {
+      "frame": 1125,
+      "duration_ms": 133
+    },
+    {
+      "frame": 1133,
+      "duration_ms": 133
+    },
+    {
+      "frame": 1141,
+      "duration_ms": 150
+    },
+    {
+      "frame": 1149,
+      "duration_ms": 133
+    },
+    {
+      "frame": 1158,
+      "duration_ms": 133
+    },
+    {
+      "frame": 1166,
+      "duration_ms": 116
+    },
+    {
+      "frame": 1174,
+      "duration_ms": 766
+    },
+    {
+      "frame": 1358,
+      "duration_ms": 1000
+    },
+    {
+      "frame": 1660,
+      "duration_ms": 950
+    },
+    {
+      "frame": 1705,
+      "duration_ms": 767
+    },
+    {
+      "frame": 1802,
+      "duration_ms": 700
+    },
+    {
+      "frame": 2310,
+      "duration_ms": 400
+    },
+    {
+      "frame": 2329,
+      "duration_ms": 317
+    },
+    {
+      "frame": 2347,
+      "duration_ms": 350
+    },
+    {
+      "frame": 2365,
+      "duration_ms": 416
+    },
+    {
+      "frame": 2384,
+      "duration_ms": 333
+    },
+    {
+      "frame": 2405,
+      "duration_ms": 334
+    },
+    {
+      "frame": 2466,
+      "duration_ms": 817
+    },
+    {
+      "frame": 2977,
+      "duration_ms": 300
+    },
+    {
+      "frame": 2991,
+      "duration_ms": 233
+    },
+    {
+      "frame": 3009,
+      "duration_ms": 350
+    },
+    {
+      "frame": 3041,
+      "duration_ms": 250
+    },
+    {
+      "frame": 3055,
+      "duration_ms": 1417
+    }
+  ],
+  "user_confirmation": "User confirmed perfect operation in Mario, many repeated ZL presses, ZL while holding other buttons, and holding Right during pause then resuming with Mario moving Right. Image and sound paused as requested.",
+  "library_sha256": "a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d",
+  "console_backup": "/var/lib/hakchi/canoe-controls-backups/19700101-014333",
+  "limitations": [
+    "Two-controller hardware test of ZL update pending",
+    "Reboot test of updated build pending",
+    "Pause supports only the verified Canoe build"
+  ]
+}

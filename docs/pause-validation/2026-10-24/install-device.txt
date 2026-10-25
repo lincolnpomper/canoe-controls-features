@@ -1,0 +1,6 @@
+CONTROLS_UPGRADED
+BACKUP=/var/lib/hakchi/canoe-controls-backups/19700101-014333
+30d0768623e875dc8f3de334ccc7193807878c8ad9b50c38bec362deb4245a61  /usr/bin/canoe-shvc
+a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d  /var/lib/hakchi/libcanoe_analog_state.so
+ab6296a9b626f27079516f12596595b0a20becac787b512239bcee21d94f4b4c  /usr/bin/clover-canoe-shvc
+END_UPGRADE

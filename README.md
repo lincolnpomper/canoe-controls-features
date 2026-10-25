@@ -1,14 +1,31 @@
-# Wii Classic Controller analog stick support for Canoe
+# Wii Classic Controller enhancements for Canoe
 
 This project provides a small wrapper library for the SNES Classic Mini's
 Canoe emulator. It makes the **left analog stick** of a Wii Classic Controller
-behave as an additional D-pad input in Canoe games.
+behave as an additional D-pad input in Canoe games. **Press ZL to pause both
+emulation and sound; press ZL again to resume.** Holding ZL triggers only once.
+**Hold ZR for fast forward capped at approximately 2×; release it for normal
+speed.** The cap is 120 emulated frames/s for the verified 60 Hz game loop;
+heavier games can run below the cap. Audio cuts during fast forward are expected.
 
 The library is loaded alongside Canoe when it starts and adds this input
 behavior without replacing the emulator or changing the original controller
 mapping. On Linux, this loading technique is called `LD_PRELOAD`.
 
 The original D-pad continues to work. Two controllers are handled independently, so controller 1's stick does not move player 2.
+
+ZL on either controller controls the shared game pause. The shortcut calls
+Canoe's native pause routine on the input thread, from the same library as the
+analog mod. The emulator executable stays intact. Pause currently supports the
+specific Canoe build listed below; other builds keep analog support only.
+ZR replaces only the measured CPU framebuffer refresh wait with a paced wait.
+The same library implements analog input, ZL pause and ZR fast forward.
+
+An OpenGL scanline prototype in `src/canoe_scanline.c` has not been shown to
+affect the Mini's image. The separate framebuffer-worker module in
+`mods/canoe-crt-control/` does work with the configured scanline path: the
+right stick adjusts two coefficients, saves them automatically, and ZL+ZR
+restores the defaults. It does not modify Canoe on disk.
 
 ## Motivation
 
@@ -36,20 +53,34 @@ The mapping is SDL axis 0 = horizontal and axis 1 = vertical. Diagonals work bec
 ## Included files
 
 - `src/canoe_analog_state.c` — final C source.
-- `dist/libcanoe_analog_state.so` — tested ARMv7 Linux shared library, also attached to the latest GitHub release.
-- `scripts/build.ps1` — Windows build command using Zig.
+- `src/canoe_pause.c` — guarded native Canoe pause integration.
+- `src/canoe_fast_forward.c` / `src/frame_pacer.c` — ZR framebuffer pacing with a 120 fps ceiling.
+- `src/canoe_scanline.c` / `src/canoe_scanline_transform.c` — reversible CRT scanline-curve adjustment through OpenGL.
+- `mods/canoe-crt-control/` — separate framebuffer-worker controls with persistent settings and a ZL+ZR reset.
+- `dist/libcanoe_analog_state.so` — current ARMv7 Linux shared library.
+- `scripts/build.sh` / `scripts/build.ps1` — macOS/Linux and Windows build commands using Zig.
+- `scripts/test.sh` — input-state and frame-pacing tests.
 - `scripts/install.sh` — installation script to run on the Mini over SSH.
+- `scripts/upgrade-controls.sh` — checked upgrade with a backup of the installed analog library.
+- `scripts/restore-controls.sh` — restore that previous library.
 - `scripts/uninstall.sh` — reversible removal script.
 
-The binary's SHA-256 is:
+The previously Mini-tested ZL/ZR library had SHA-256:
 
 ```
-faef005d9a1d8453f6df625b4456b93eba81bb88ad42ba535c16af0220aad098
+47cfaf7e0633e38c4ffb408f1843c2a23c553a88a6d1d80bd8651aafd12112dc
 ```
 
-The supplied binary is the exact one tested on the Mini. A later local rebuild
-can legitimately have a different file hash because of toolchain/build metadata;
-verify that it builds successfully before substituting it for the tested binary.
+The original analog-only library has SHA-256
+`faef005d9a1d8453f6df625b4456b93eba81bb88ad42ba535c16af0220aad098`.
+The first ZL-only update had hash
+`a1ed2cf5ef45a43631afa06a9aa70509f17a88c3817bb8e97430918a1793502d`.
+The current main library build has SHA-256
+`ac836cd2875d6ca8161f8e9ecc8027547a0ea49a241d4bf2df6c45542e1d622f`
+and includes the unverified OpenGL scanline prototype. The tested CRT worker
+module is built separately from `mods/canoe-crt-control/`.
+Rebuilds can change the hash because of toolchain metadata; verify the build and
+checksum before installing.
 
 ## License
 
@@ -63,27 +94,50 @@ copyright and license notices.
 - Canoe launcher at `/usr/bin/clover-canoe-shvc`.
 - Wii Classic Controller(s) recognized by Canoe through SDL.
 
+For native pause and fast forward, `/usr/bin/canoe-shvc` must have SHA-256
+`30d0768623e875dc8f3de334ccc7193807878c8ad9b50c38bec362deb4245a61`
+(version `fc349ac43140141277d2d6f964c1ee361fcd20ca`). The upgrade script checks
+the full file hash. Runtime additionally checks file identity, ELF load layout,
+instruction signatures and the active game object before calling a private
+routine. Analog input still works if pause is unavailable on another build.
+Fast forward additionally requires the verified CPU framebuffer path on the
+main thread. Other rendering paths retain their original pacing.
+
 This does not remap controls system-wide and does not affect RetroArch. RetroArch already has its own analog input handling.
 
 ## Download
 
-The tested ARMv7 binary is available in the [latest GitHub release](https://github.com/lincolnpomper/wii-classic-analog-on-canoe/releases/latest).
+The previously published analog-only ARMv7 binary is available in the [latest GitHub release](https://github.com/lincolnpomper/wii-classic-analog-on-canoe/releases/latest).
 
 Direct download:
 
 [`libcanoe_analog_state.so`](https://github.com/lincolnpomper/wii-classic-analog-on-canoe/releases/latest/download/libcanoe_analog_state.so)
 
-The same tested binary is also kept in `dist/` in the repository.
+The current library in `dist/` includes analog input, ZL pause, capped ZR fast
+forward and the unverified OpenGL scanline prototype. The separately built CRT
+worker module is documented under `mods/canoe-crt-control/`. Neither update has
+been published as a GitHub release.
 
 ## Install
 
-1. Download `libcanoe_analog_state.so` from the latest release, or use the copy in `dist/`.
+1. Use `dist/libcanoe_analog_state.so` for analog support, ZL pause and capped ZR fast forward. The OpenGL scanline prototype in that library is unverified. The working CRT coefficient controls are a separate module under `mods/canoe-crt-control/`. The current GitHub release contains the earlier analog-only version.
 2. Copy it to `/var/lib/hakchi/libcanoe_analog_state.so` on the Mini.
 3. Copy `scripts/install.sh` to the Mini and execute it as root.
 4. Reboot the Mini.
 5. Test one controller, then two controllers in a simultaneous two-player Canoe game.
 
 `install.sh` makes a timestamped backup of the Canoe wrapper before changing it. It preserves any existing options or prior fixes in that wrapper.
+
+If the analog mod is already installed, exit to the Mini's menu, stage the new
+library in `/tmp`, and use the checked upgrade instead of overwriting a library
+that a running game may have mapped:
+
+```sh
+sh upgrade-controls.sh /tmp/libcanoe_controls.new.so ac836cd2875d6ca8161f8e9ecc8027547a0ea49a241d4bf2df6c45542e1d622f
+```
+
+The script prints the backup directory and preserves the launcher. Open a game
+again to load the updated library. No extra resident program is needed.
 
 ## Verify on the Mini
 
@@ -103,9 +157,23 @@ exec canoe-shvc $options $log
 
 ## Reversal
 
+To undo only the controls upgrade and keep the previous analog mod, exit the
+game and run `sh restore-controls.sh BACKUP_DIRECTORY`, using the backup path
+printed by the upgrade script.
+
 Run `scripts/uninstall.sh` on the Mini. It restores the most recent backup created by the installer and removes the library.
 
 ## Development notes
+
+The [controller input map](docs/CONTROLLER-MAPPING.md) records the 2026-10-24
+button and stick capture, including how ZL/ZR appear as SDL trigger axes.
+The [ZL pause implementation notes](docs/ZL-PAUSE.md) describe the native call,
+version checks, diagnostics and validation.
+The [fast-forward investigation](docs/FAST-FORWARD.md) demonstrated the native
+pacing constraint. The [ZR implementation](docs/ZR-FAST-FORWARD.md) adds a
+120 fps ceiling rather than unlimited speed.
+The separate CRT worker controls and settings tests are in
+[`mods/canoe-crt-control/`](mods/canoe-crt-control/).
 
 The work began by observing Canoe's SDL input path with an ARM `LD_PRELOAD` probe. The probe established that the Wii Classic Controller uses SDL axis 0 for horizontal movement and axis 1 for vertical movement, while Canoe requests D-pad buttons 11–14 (up, down, left, right).
 
@@ -115,7 +183,32 @@ SDL assigns a joystick instance ID to each controller. State is keyed on this ID
 
 ## Tested outcome
 
+The original analog-only release was tested as follows:
+
 - Wii Classic Controller: all four analog directions, D-pad, face buttons, and diagonals work.
 - Two identical Wii Classic Controllers: each analog stick controls only its own player.
 - Original SNES controller: remains working.
 - Persistence: works after an SNES Mini reboot.
+
+For the first ZL update, input-state tests covered press/hold/release, ZR remaining free,
+independent controller IDs, reconnection, analog hysteresis/diagonals and
+unchanged physical-button/event handling. On the Mini, 43 ZL pause/resume pairs
+were recorded in Mario with matching emulation frame counters and both pause
+flags changing together. The user confirmed image/audio pause, repeated presses
+and combinations with other buttons. A later combined build retained pause and
+fast-forward behavior after a Mini reboot. The combined build has not been
+revalidated with two controllers at once.
+
+For the ZR update, input tests additionally cover either controller holding ZR,
+release, hysteresis and disconnect. Pacing tests exercise 10,000 fast frames,
+slow frames, interrupted waits, clock/sleep failures and no catch-up bursts.
+On the Mini, the real-clock pacing test with zero emulation workload measured
+119.003 fps, below the 120 fps ceiling. Mario measured approximately 118.9 fps
+(1.98×) while holding ZR, returned to 60 fps after release, and retained working
+ZL pause/resume. The user confirmed the behavior. See the ZR implementation
+notes for the evidence and remaining validation scope.
+
+The CRT worker module was tested on the Mini with held-stick repeats,
+automatic settings persistence and the ZL+ZR reset chord.
+Host tests cover configuration validation, loading, delayed writes and reset
+writes; they do not emulate Canoe's rendering path.
