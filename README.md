@@ -128,7 +128,15 @@ the separate `codex/experimental-opengl-scanlines` branch.
 4. Reboot the Mini.
 5. Test one controller, then two controllers in a simultaneous two-player Canoe game.
 
-`install.sh` makes a timestamped backup of the Canoe wrapper before changing it. It preserves any existing options or prior fixes in that wrapper.
+`install.sh` makes a timestamped backup of the Canoe wrapper before changing it. It preserves any existing options or prior fixes in that wrapper. It recognizes both `exec canoe-shvc ...` and `exec /usr/bin/canoe-shvc ...` launcher formats.
+
+Before installing, you can safely validate the detected Canoe launch line without
+changing any files. This also validates an already-configured launcher, but does
+not reinstall it:
+
+```sh
+sh /tmp/install.sh --dry-run
+```
 
 If the analog mod is already installed, exit to the Mini's menu, stage the new
 library in `/tmp`, and use the checked upgrade instead of overwriting a library

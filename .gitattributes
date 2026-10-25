@@ -1,0 +1,3 @@
+# Scripts copied to the SNES Mini must keep Unix line endings.
+.gitattributes text eol=lf
+*.sh text eol=lf
